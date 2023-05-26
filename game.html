@@ -9,7 +9,12 @@
     <link rel="stylesheet" type="text/css" href="styl.css">
 </head>
 <body onload="setup(); verticalAllign();" onresize="verticalAllign();">
-    <div id="board"></div>
+    <div id="container">
+        <div id="board"></div>
+        <div id='endDiv'>
+            <button id='reset' onclick='location.reload();'>Reset</button>
+        </div>
+    </div>
     <script src="system.js"></script>
 </body>
 </html>

@@ -1,5 +1,11 @@
-const IMAGES = ["Images/mineral1.png", "Images/mineral2.png", "Images/mineral3.png", "Images/mineral4.png", "Images/mineral5.png", "Images/mineral6.png", "Images/mineral7.png", "Images/mineral8.png"];
-let indexes = [0, 1, 2, 3, 4, 5, 6, 7];
+// Obiekty 'board' i 'endDiv' są używane w wielu miejscach, więc powinno się wstawić je do globalnej zmiennej. Obiekty HTML powinny być ładowane do JS tylko RAZ
+let container = document.getElementById("container");
+let board = document.getElementById("board");
+let endDiv = document.getElementById("endDiv");
+
+const CARDS_TYPES = 8; // Ilość rodzajów kart powinna znajdować się w stałej
+const IMAGES = []; // Tablica z nazwami obrazków
+
 let id = 0;
 let firstChoice;
 let secondChoice;
@@ -7,12 +13,9 @@ let first = true;
 
 function setup(){
     const BOARD_SIZE = 4;
-    let board = document.getElementById("board");
 
-    randomArray = createRandomArray(indexes);
-    let randomArray2 = createRandomArray(indexes);
-    randomArray = randomArray.concat(randomArray2);
-    parsAmount = randomArray.length;
+    setupArray();
+    setupImages();
 
     for(let i = 0; i < BOARD_SIZE; i++){
         for(let j = 0; j < BOARD_SIZE; j++){
@@ -21,18 +24,31 @@ function setup(){
         }
         board.innerHTML += "<div style='clear: both;'></div>";
     }
-    board.innerHTML += "<div id='endDiv'></div>";
-    let endDiv = document.getElementById("endDiv");
-    endDiv.innerHTML += "<button id='reset' onclick='location.reload();'>Reset</button>";
+}
+
+// Tworzenie kart - nowa funkcja
+function setupArray() {
+    let indexes = []; // Tablica indeksy jest używana tylko do wylosowania kart, więc można ją zrobić lokalnie
+    for(let i = 0; i < CARDS_TYPES; i++) { // Indeksy stworzyć pętlą, zamiast dokowywać konkatenacji tablic - karty będą w tej sposób bardziej losowo rozłożone
+        indexes.push(i);
+        indexes.push(i);
+    }
+    randomArray = createRandomArray(indexes);
+    parsAmount = randomArray.length;
+}
+// Tworzenie nazw obrazków - nowa funkcja
+function setupImages() {
+    for(let i = 0; i < CARDS_TYPES; i++) {
+        IMAGES.push(`Images/mineral${i + 1}.png`); // Nazwy obrazków utworzyć pętlą, zamiast ręcznie wpisywać
+    }
 }
 
 function verticalAllign(){
     let screenHeight = window.innerHeight;
-    let board = document.getElementById("board");
     let boardHeight = board.offsetHeight;
     let marginTop = screenHeight / 2 - boardHeight / 2;
 
-    board.style.setProperty("margin-top", `${marginTop}px`);
+    container.style.setProperty("margin-top", `${marginTop}px`);
 }
 
 
@@ -112,10 +128,6 @@ function different(firstId, secondId){
 }
 
 function win(){
-    let endDiv = document.getElementById("endDiv");
-    let resetBtn = document.getElementById("reset");
-    
     endDiv.style.zIndex = "1";
     endDiv.style.backgroundColor = "rgba(225, 225, 225, .8)";
-    resetBtn.style.backgroundColor = "rgba(104, 171, 128, 1)";
 }

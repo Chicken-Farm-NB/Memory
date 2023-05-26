@@ -5,7 +5,8 @@
     --secondWhiteClr: rgb(184, 199, 192);/*rgb(211, 211, 211)*/
     --whiteShadowClr: rgb(188, 188, 188);
     --endDivClr: rgba(225, 225, 225, 0);
-    --resetBtnClr: rgba(104, 171, 128, 0);
+    --resetBtnClr: rgb(104, 171, 128); /* Kolor przycisku od razu ustawić jako widoczny*/
+    --board-size: 450px; /* Wielkość dla board dać do zmiennej */
 }
 
 @font-face {
@@ -19,13 +20,20 @@ body{
 }
 
 div#board{
-    margin: auto;
-    width: 450px;
-    height: 450px;
+    width: var(--board-size);
+    height: var(--board-size);
     background-color: var(--secondWhiteClr);
     padding: 15px;
     border-radius: 15px;
     /* outline: solid 7px rgb(112, 183, 135); */
+}
+
+/* Ustawić position absolute, aby używać z-index */
+div#board, div#endDiv {
+    position: absolute;
+    margin: auto;
+    left: 0px;
+    right: 0px;
 }
 
 div.field{
@@ -60,19 +68,17 @@ img::selection, h1.questionMark::selection{
 }
 
 div#endDiv{
-    width: 450px;
-    height: 450px;
+    width: var(--board-size);
+    height: var(--board-size);
     background-color: var(--endDivClr);
-    top: -455px;    
-    margin-left: -15px;
     padding: 15px;
     border-radius: 15px;
-    position: relative;
     z-index: -1;
-    display: flex;
-	align-items: center;
-	justify-content: center;
     transition: 1.5s;
+
+    /* Zamiast display flex w celu wyrównania contentu mozna użyć text-align i line-height */
+    text-align: center;
+    line-height: var(--board-size);
 }
 
 button#reset{
